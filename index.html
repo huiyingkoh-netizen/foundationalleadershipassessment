@@ -458,27 +458,27 @@
       <p>There are no right or wrong answers. Your results are for your own self-awareness and will be used to track your growth over the 10-week programme.</p>
     </div>
     <div class="form-group">
-      <label class="form-label">Your Name</label>
+      <label class="form-label">Your Name <span style="color:#ff4444;">*</span></label>
       <input type="text" id="input-name" class="form-input" placeholder="Full name">
     </div>
     <div class="form-group">
-      <label class="form-label">Company</label>
+      <label class="form-label">Company <span style="color:#ff4444;">*</span></label>
       <input type="text" id="input-company" class="form-input" placeholder="Your company name">
     </div>
     <div class="form-group">
-      <label class="form-label">Assessment Type</label>
+      <label class="form-label">Assessment Type <span style="color:#ff4444;">*</span></label>
       <div class="radio-group">
         <div class="radio-option">
-          <input type="radio" name="assessment-type" id="type-pre" value="Pre">
-          <label class="radio-label" for="type-pre">Pre-Assessment</label>
+          <input type="radio" name="assessment-type" id="type-pre" value="Pre-Programme Assessment">
+          <label class="radio-label" for="type-pre">Pre-Programme Assessment</label>
         </div>
         <div class="radio-option">
-          <input type="radio" name="assessment-type" id="type-post" value="Post">
-          <label class="radio-label" for="type-post">Post-Assessment</label>
+          <input type="radio" name="assessment-type" id="type-post" value="Post-Programme Assessment">
+          <label class="radio-label" for="type-post">Post-Programme Assessment</label>
         </div>
       </div>
     </div>
-    <div id="intro-error" class="error-message">Please fill in all fields before continuing.</div>
+    <div id="intro-error" class="error-message">Please fill in your name, company, and select an assessment type before continuing.</div>
     <button class="btn-primary" onclick="startAssessment()">Begin Assessment →</button>
   </div>
 </div>
@@ -740,7 +740,7 @@ async function submitAndShowResults() {
 
 function renderResults(totals) {
   document.getElementById('results-subtitle').textContent =
-    `${userData.name} · ${userData.type}-Assessment · ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+    `${userData.name} · ${userData.type} · ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`;
 
   const container = document.getElementById('results-container');
   container.innerHTML = '';

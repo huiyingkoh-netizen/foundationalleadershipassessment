@@ -219,6 +219,16 @@
     margin-bottom: 24px;
   }
 
+  .pair-stem {
+    padding: 18px 24px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 0;
+  }
+
   .poles-container { display: grid; grid-template-columns: 1fr 1fr; }
 
   .pole {
@@ -557,9 +567,9 @@ const competencies = [
     leftPole: "Answers-first",
     rightPole: "Growth-first",
     pairs: [
-      { left: "I know I'm doing well as a leader when my team comes to me for answers and trusts my judgement.", right: "I know I'm doing well as a leader when my team starts solving problems without needing to come to me first." },
-      { left: "When I'm stressed or under pressure, I push through and keep my focus on getting things done.", right: "When I'm stressed or under pressure, I notice it and consciously manage how I show up to my team." },
-      { left: "When a team member questions my decision, my instinct is to explain my decision.", right: "When a team member questions my decision, my instinct is to understand their reason." },
+      { stem: "I know I'm doing well as a leader when my team...", left: "comes to me for answers and trusts my judgement.", right: "starts solving problems without needing to come to me first." },
+      { stem: "When I'm stressed or under pressure, I...", left: "push through and keep my focus on getting things done.", right: "notice it and consciously manage how I show up to my team." },
+      { stem: "When a team member questions my decision, my instinct is to...", left: "explain my decision.", right: "understand their reason." },
       { left: "A leader's credibility comes from their expertise and ability to provide direction.", right: "A leader's credibility comes from how well they develop and bring out the best in their people." }
     ],
     zones: {
@@ -574,8 +584,8 @@ const competencies = [
     rightPole: "Safety-focused",
     pairs: [
       { left: "I expect my team to come to me with well-thought-out solutions. Coming to me with a half-baked idea wastes everyone's time.", right: "I expect my team to come to me with their best thinking, even if it's not fully formed. Part of my job is helping them develop their ideas further." },
-      { left: "When someone on my team is going through something personal, I acknowledge it briefly and redirect back to work to keep things professional.", right: "When someone on my team is going through something personal, I make time to check in properly before talking about work." },
-      { left: "When a team member makes a mistake, my priority is making sure it doesn't happen again.", right: "When a team member makes a mistake, my priority is helping them understand why it happened." },
+      { stem: "When someone on my team is going through something personal, I...", left: "acknowledge it briefly and redirect back to work to keep things professional.", right: "make time to check in properly before talking about work." },
+      { stem: "When a team member makes a mistake, my priority is...", left: "making sure it doesn't happen again.", right: "helping them understand why it happened." },
       { left: "I recognise my team when they deliver results. Good work speaks for itself.", right: "I recognise my team for the effort and growth behind the results they deliver." }
     ],
     zones: {
@@ -589,10 +599,10 @@ const competencies = [
     leftPole: "Advice-giver",
     rightPole: "Question-asker",
     pairs: [
-      { left: "When a team member comes to me stuck on something, I walk them through what I would do.", right: "When a team member comes to me stuck on something, I ask questions to help them figure out their own next steps." },
-      { left: "In conversations with my team, I'm usually thinking about what advice or guidance I can offer.", right: "In conversations with my team, I focus on understanding what they're saying before I respond." },
+      { stem: "When a team member comes to me stuck on something, I...", left: "walk them through what I would do.", right: "ask questions to help them figure out their own next steps." },
+      { stem: "In conversations with my team, I...", left: "am usually thinking about what advice or guidance I can offer.", right: "focus on understanding what they're saying before I respond." },
       { left: "The best way to develop my team is to expose them to challenges and give them clear guidance on how to handle it.", right: "The best way to develop my team is to ask the right questions so they build their own problem-solving ability over time." },
-      { left: "After a check-in with a team member, I feel most satisfied when I've given them clear direction on what to do next.", right: "After a check-in with a team member, I feel most satisfied when they leave with their own clarity on what to do next." }
+      { stem: "After a check-in with a team member, I feel most satisfied when...", left: "I've given them clear direction on what to do next.", right: "they leave with their own clarity on what to do next." }
     ],
     zones: {
       developing: "Your instinct is to help by providing answers and direction. This comes from genuine care for your team. The shift ahead is learning to hold back the answer and ask a question instead — it develops people far more powerfully.",
@@ -605,8 +615,8 @@ const competencies = [
     leftPole: "Close involvement",
     rightPole: "Clear delegation",
     pairs: [
-      { left: "When I delegate a task, I check in regularly to make sure it's on track and being done the right way.", right: "When I delegate a task, I set clear expectations upfront and check in at agreed points." },
-      { left: "When a team member is underperforming, I give them more time and support before raising it directly with them.", right: "When a team member is underperforming, I address it directly and early before it becomes a bigger issue." },
+      { stem: "When I delegate a task, I...", left: "check in regularly to make sure it's on track and being done the right way.", right: "set clear expectations upfront and check in at agreed points." },
+      { stem: "When a team member is underperforming, I...", left: "give them more time and support before raising it directly with them.", right: "address it directly and early before it becomes a bigger issue." },
       { left: "My team generally knows what's expected of them through the work we do together day to day.", right: "I make a point of explicitly agreeing on expectations, standards, and success criteria with my team upfront." },
       { left: "I give feedback when something goes noticeably wrong or noticeably well.", right: "I give feedback regularly, not just when something stands out." }
     ],
@@ -623,8 +633,8 @@ const competencies = [
     pairs: [
       { left: "My main focus is making sure my team delivers what's expected of us. That's what I'm accountable for.", right: "I think about how my team's work connects to the broader goals of the organisation, not just our own deliverables." },
       { left: "I update my manager when there's something they need to know or act on.", right: "I proactively manage my relationship with my manager to keep them informed, aligned, and aware of what my team needs to succeed." },
-      { left: "When making decisions for my team, I focus on what works best for us.", right: "When making decisions for my team, I consider how it affects and is affected by other teams and stakeholders." },
-      { left: "When there's too much to do, I prioritise based on what's most urgent for my team.", right: "When there's too much to do, I prioritise based on what matters most to the business, even if it's not the most urgent thing for my team." }
+      { stem: "When making decisions for my team, I...", left: "focus on what works best for us.", right: "consider how it affects and is affected by other teams and stakeholders." },
+      { stem: "When there's too much to do, I prioritise based on...", left: "what's most urgent for my team.", right: "what matters most to the business, even if it's not the most urgent thing for my team." }
     ],
     zones: {
       developing: "You focus on executing well within your own scope, which is important. The next layer of leadership is developing a line of sight beyond your team — understanding how your work connects to and influences the broader organisation.",
@@ -676,6 +686,7 @@ function renderCompetency() {
     const card = document.createElement('div');
     card.className = 'pair-card';
     card.innerHTML = `
+      ${pair.stem ? `<div class="pair-stem">${pair.stem}</div>` : ''}
       <div class="poles-container">
         <div class="pole pole-left ${val <= 2 ? 'highlighted-left' : ''}" id="pole-left-${i}">
           <div class="pole-tag">← Tends this way</div>

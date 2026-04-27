@@ -195,6 +195,7 @@
   <p class="submitting-text">Saving your results...</p>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 const SHEETDB_URL = "https://sheetdb.io/api/v1/o7ara7tvmmows";
 
@@ -467,6 +468,7 @@ function renderResults(totals) {
     `;
     container.appendChild(div);
   });
+}
 function downloadPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
@@ -593,6 +595,5 @@ function downloadPDF() {
   doc.save(`BBL_Leadership_Assessment_${userData.name.replace(/\s+/g, '_')}.pdf`);
 }
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>

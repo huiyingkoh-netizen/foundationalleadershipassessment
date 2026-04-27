@@ -87,7 +87,9 @@
   .spectrum-poles { display: flex; justify-content: space-between; font-size: 11px; color: var(--mid); opacity: 0.7; margin-bottom: 16px; }
   .result-description { font-size: 14px; line-height: 1.7; color: var(--mid); background: var(--light); padding: 16px 20px; border-radius: 10px; border-left: 3px solid var(--orange); }
   .results-footer { padding: 0 40px 40px; max-width: 760px; margin: 0 auto; width: 100%; }
-  .save-note { font-size: 13px; color: var(--mid); text-align: center; margin-top: 24px; opacity: 0.7; }
+  .save-note { font-size: 13px; color: var(--mid); text-align: center; margin-top: 16px; opacity: 0.7; }
+  .btn-download { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--white); color: var(--orange); border: 2px solid var(--orange); padding: 14px 28px; border-radius: 8px; font-family: 'Figtree', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; width: 100%; margin-top: 24px; }
+  .btn-download:hover { background: var(--orange-light); }
   .submitting-overlay { display: none; position: fixed; inset: 0; background: rgba(255,255,255,0.9); z-index: 999; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
   .submitting-overlay.active { display: flex; }
   .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--orange); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -183,7 +185,8 @@
     <div id="results-container"></div>
   </div>
   <div class="results-footer">
-    <p class="save-note">Your results have been saved. Take a screenshot or note down your scores before closing this page.</p>
+    <button class="btn-download" onclick="downloadPDF()">&#x2193; Download My Results (PDF)</button>
+    <p class="save-note">Your results have been saved. You can also download a copy using the button above.</p>
   </div>
 </div>
 
@@ -395,8 +398,8 @@ function goBack() {
 }
 
 function getZone(total) {
-  if (total <= 18) return 'developing';
-  if (total <= 29) return 'progressing';
+  if (total <= 23) return 'developing';
+  if (total <= 33) return 'progressing';
   return 'leading';
 }
 
@@ -464,7 +467,132 @@ function renderResults(totals) {
     `;
     container.appendChild(div);
   });
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  const blue = [55, 114, 255];
+  const dark = [26, 26, 26];
+  const mid = [85, 85, 85];
+  const lightBlue = [235, 240, 255];
+  const pageW = 210;
+  const margin = 20;
+  const contentW = pageW - margin * 2;
+  let y = 0;
+
+  // Header block
+  doc.setFillColor(...blue);
+  doc.rect(0, 0, pageW, 48, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(18);
+  doc.setTextColor(255, 255, 255);
+  doc.text('Leadership Self-Assessment', margin, 20);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.text('Building Better Leaders · Leadership Pod Programme', margin, 28);
+  doc.setFontSize(9);
+  doc.text(`${userData.name}  ·  ${userData.type}  ·  ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`, margin, 36);
+  doc.text(`Pod Leader: ${userData.podLeader}`, margin, 43);
+
+  y = 58;
+
+  // Intro text
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(...mid);
+  const introText = 'Here is where you stand across the five foundational leadership competencies. This is your starting point — not a verdict. Use it to guide your reflections and conversations with your Pod Leader over the next 10 weeks.';
+  const introLines = doc.splitTextToSize(introText, contentW);
+  doc.text(introLines, margin, y);
+  y += introLines.length * 5 + 8;
+
+  // Divider
+  doc.setDrawColor(...blue);
+  doc.setLineWidth(0.5);
+  doc.line(margin, y, pageW - margin, y);
+  y += 8;
+
+  const totals = competencies.map((_, i) => computeTotal(i));
+
+  competencies.forEach((comp, i) => {
+    const total = totals[i];
+    const zone = getZone(total);
+    const zoneLabel = getZoneLabel(zone);
+    const pct = Math.min(Math.max(((total - 8) / 32), 0.02), 0.98);
+
+    // Check if we need a new page
+    if (y > 230) {
+      doc.addPage();
+      y = 20;
+    }
+
+    // Competency name
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+    doc.setTextColor(...blue);
+    doc.text(comp.name.toUpperCase(), margin, y);
+    y += 6;
+
+    // Zone label
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.setTextColor(...dark);
+    doc.text(zoneLabel, margin, y);
+    y += 8;
+
+    // Spectrum track
+    const trackW = contentW;
+    const trackH = 4;
+    // Background gradient approximation
+    doc.setFillColor(107, 149, 255);
+    doc.roundedRect(margin, y, trackW * 0.5, trackH, 2, 2, 'F');
+    doc.setFillColor(26, 26, 26);
+    doc.roundedRect(margin + trackW * 0.5, y, trackW * 0.5, trackH, 2, 2, 'F');
+    // Marker
+    const markerX = margin + trackW * pct;
+    doc.setFillColor(...dark);
+    doc.circle(markerX, y + trackH / 2, 3, 'F');
+    doc.setFillColor(255, 255, 255);
+    doc.circle(markerX, y + trackH / 2, 1.5, 'F');
+    y += trackH + 4;
+
+    // Pole labels
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(...mid);
+    doc.text(comp.leftPole, margin, y);
+    doc.text(comp.rightPole, pageW - margin, y, { align: 'right' });
+    y += 7;
+
+    // Description box
+    doc.setFillColor(...lightBlue);
+    const descLines = doc.splitTextToSize(comp.zones[zone], contentW - 10);
+    const boxH = descLines.length * 4.5 + 8;
+    doc.roundedRect(margin, y, contentW, boxH, 2, 2, 'F');
+    doc.setDrawColor(...blue);
+    doc.setLineWidth(0.8);
+    doc.line(margin, y, margin, y + boxH);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(...mid);
+    doc.text(descLines, margin + 5, y + 5.5);
+    y += boxH + 10;
+
+    // Divider between competencies
+    if (i < competencies.length - 1) {
+      doc.setDrawColor(216, 223, 240);
+      doc.setLineWidth(0.3);
+      doc.line(margin, y - 5, pageW - margin, y - 5);
+    }
+  });
+
+  // Footer
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(...mid);
+  doc.text('BuildingBetterLeaders.co', pageW / 2, 290, { align: 'center' });
+
+  doc.save(`BBL_Leadership_Assessment_${userData.name.replace(/\s+/g, '_')}.pdf`);
 }
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>
